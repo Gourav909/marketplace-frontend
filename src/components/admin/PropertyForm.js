@@ -63,8 +63,6 @@ const PropertyForm = ({ isEdit }) => {
     fetchCityAndDistrictData();
   }, []);
 
-  console.log("cityOptions", cityOptions);
-
   const handleDistrict = (e) => {
     const selectedValue = e.target.value;
     formik.setFieldValue("address_attributes.city_id", selectedValue);
@@ -95,7 +93,7 @@ const PropertyForm = ({ isEdit }) => {
         }
       });
     }
-  }, [formik.values.address_attributes?.city_id]);
+  }, [formik.values.address_attributes?.city_id, cityOptions]);
 
   const setFormikValues = (data) => {
     formik.setValues({
@@ -272,7 +270,6 @@ const PropertyForm = ({ isEdit }) => {
               <Grid item xs={12}>
                 <FormControl fullWidth variant="outlined">
                   <InputLabel htmlFor="City">City</InputLabel>
-                  {formik.values.address_attributes?.city_id}
                   <Select
                     label="City"
                     id="address_attributes.city_id"

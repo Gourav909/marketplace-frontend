@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const url = "https://430b-2401-4900-1c19-4611-a75a-e6bd-a330-2286.ngrok-free.app/";
-console.log(url)
+const url = process.env.REACT_APP_API_BASE_URL;
 
 export const makeApiOptions = (methodType, data) => {
   var currentUser = JSON.parse(localStorage.getItem("currentUser"));

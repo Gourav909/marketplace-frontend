@@ -15,7 +15,7 @@ import {
   PROPERTY_DETAILS,
   FAVORITES_PAGE,
 } from "./routes";
-import ProductDetailPage from "../pages/ProductDetailPage";
+import PropertyDetailPage from "../pages/PropertyDetailPage";
 import FavoritesPage from "../pages/FavoritesPage";
 
 const router = createBrowserRouter([
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     path: PROPERTY_DETAILS,
     element: (
       <ProtectedRouted allowedRoles={["User"]}>
-        <ProductDetailPage />
+        <PropertyDetailPage />
       </ProtectedRouted>
     ),
   },
