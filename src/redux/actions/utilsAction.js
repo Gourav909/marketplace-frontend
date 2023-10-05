@@ -9,8 +9,15 @@ import {
   UPDATE_PROPERTIES_DELETE,
   UPDATE_FAV_PROPERTIES,
   UPDATE_FAV_LIST,
+  FETCH_CITIES_REQUEST,
+  FETCH_CITIES_SUCCESS,
+  FETCH_CITIES_ERROR,
 } from "../constants";
-import { GET_METHOD_TYPE, PROPERTIES_ROUTE } from "src/utils/apiEndPoints";
+import {
+  GET_METHOD_TYPE,
+  PROPERTIES_ROUTE,
+  CITIES_ROUTE,
+} from "src/utils/apiEndPoints";
 export const fetchProperties = (params) => {
   const options = makeApiOptions(GET_METHOD_TYPE);
   const query = "";
@@ -49,4 +56,15 @@ export const updateStore = ({ actionType, id }) => {
       return;
     }
   };
+};
+
+export const fetchCities = () => {
+  const options = makeApiOptions(GET_METHOD_TYPE);
+  return makeApiRequest({
+    url: `${process.env.REACT_APP_API_BASE_URL}${CITIES_ROUTE}`,
+    options: options,
+    requestAction: FETCH_CITIES_REQUEST,
+    successAction: FETCH_CITIES_SUCCESS,
+    errorAction: FETCH_CITIES_ERROR,
+  });
 };

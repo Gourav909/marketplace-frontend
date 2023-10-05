@@ -12,6 +12,7 @@ import {
 import {
   fetchPropertiesReducer,
   fetchPropertyByIdReducer,
+  fetchCitiesByReducer,
 } from "./utilsReducer";
 
 import {
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   addItemToFavouriteListReducer: addItemToFavouriteListReducer,
   fetchFavouriteList: fetchFavouriteList,
   deleteFavPropertyReducer: deleteFavPropertyReducer,
+  fetchCitiesByReducer: fetchCitiesByReducer,
 });
 
 export default rootReducer;

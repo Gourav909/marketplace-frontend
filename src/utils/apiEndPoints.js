@@ -9,3 +9,4 @@ export const GET_CURRENT_USER_ROUTE = "/users";
 
 export const PROPERTIES_ROUTE = "/properties";
 export const FAVOURITE_PROPERTIES_ROUTE = "/favourite_properties";
+export const CITIES_ROUTE = "/cities";

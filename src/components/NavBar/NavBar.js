@@ -20,9 +20,19 @@ const NavBar = () => {
     navigate("/");
   };
 
+  const handleDashbordPage = () => {
+    if (userType === "Admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/dashboard");
+    }
+  };
   return (
     <AppBar position="static" sx={{ mb: 5 }}>
       <Toolbar sx={{ justifyContent: "flex-end" }}>
+        <Button color="inherit" onClick={() => handleDashbordPage()}>
+          Dashboard
+        </Button>
         {userType !== "Admin" && (
           <Button color="inherit" onClick={() => favLinkClickHandler()}>
             My Favorites

@@ -24,7 +24,6 @@ import Modal from "src/components/Modal/Modal";
 import Filter from "src/components/Filter/Filter";
 import useDebounce from "src/hooks/useDebounce";
 import { filterPropertiesAction } from "src/redux/actions/user";
-import { fetchProperties } from "src/redux/actions/utilsAction";
 
 const Dashboard = ({ properties, handlePageChange, currentPage }) => {
   const [searchInput, setSearchInput] = useState(null);

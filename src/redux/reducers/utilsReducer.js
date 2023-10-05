@@ -10,6 +10,9 @@ import {
   FILTER_PROPERTIES_SUCCESS,
   UPDATE_FAV_PROPERTIES,
   UPDATE_PROPERTIES_DELETE,
+  FETCH_CITIES_REQUEST,
+  FETCH_CITIES_SUCCESS,
+  FETCH_CITIES_ERROR,
 } from "../constants";
 
 const initialState = {
@@ -18,6 +21,11 @@ const initialState = {
   propertyDetail: {},
   isError: "",
   pagination: {},
+};
+
+const citiesInitialState = {
+  cities: [],
+  isError: "",
 };
 
 export const fetchPropertiesReducer = (state = initialState, action) => {
@@ -53,7 +61,7 @@ export const fetchPropertiesReducer = (state = initialState, action) => {
     case UPDATE_FAV_PROPERTIES:
       return {
         ...state,
-        properties: [...state.properties].map((user) => {
+        properties: [...state.properties.properties].map((user) => {
           if (user.id === action.payload) {
             user["is_favourite"] = true;
             return user;
@@ -77,13 +85,35 @@ export const fetchPropertyByIdReducer = (state = initialState, action) => {
     case FETCH_PROPERTY_BY_ID_SUCCESS:
       return {
         isFetching: false,
-        propertyDetail: action.payload,
+        propertyDetail: action.payload.data,
       };
 
     case FETCH_PROPERTY_BY_ID_ERROR:
       return {
         isFetching: false,
         propertyDetail: {},
+        isError: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const fetchCitiesByReducer = (state = citiesInitialState, action) => {
+  switch (action.type) {
+    case FETCH_CITIES_REQUEST:
+      return {
+        cities: [],
+      };
+    case FETCH_CITIES_SUCCESS:
+      return {
+        cities: action.payload.data,
+      };
+
+    case FETCH_CITIES_ERROR:
+      return {
+        cities: [],
         isError: action.payload,
       };
 

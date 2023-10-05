@@ -54,7 +54,7 @@ export const fetchFavouriteList = (state = initialState, action) => {
     case FAVOURITE_PROPERTIES_SUCCESS:
       return {
         isFetching: false,
-        favouriteProperties: action.payload.data,
+        favouriteProperties: action.payload.data.favourite_properties,
       };
 
     case FAVOURITE_PROPERTIES_ERROR:

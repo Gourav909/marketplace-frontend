@@ -46,7 +46,6 @@ export const fetchFavouritePropertiesList = () => {
 
 export const filterPropertiesAction = (queryParams) => {
   const options = makeApiOptions(GET_METHOD_TYPE);
-  console.log("dsfdsf", queryParams);
   return makeApiRequest({
     url: `${process.env.REACT_APP_API_BASE_URL}${FAVOURITE_PROPERTIES_ROUTE}?${queryParams}`,
     options: options,

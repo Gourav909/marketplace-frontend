@@ -19,7 +19,6 @@ import {
 
 export const addNewPropertyAction = (data) => {
   const options = makeApiOptions(POST_METHOD_TYPE, data);
-
   return makeApiRequest({
     url: `${process.env.REACT_APP_API_BASE_URL}${PROPERTIES_ROUTE}`,
     options: options,

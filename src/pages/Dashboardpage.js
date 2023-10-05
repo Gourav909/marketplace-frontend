@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import NavBar from "src/components/NavBar/NavBar";
 import Dashboard from "src/components/Dashboard/Dashboard";
-import { fetchProperties } from "src/redux/actions/utilsAction";
+import { fetchProperties, fetchCities } from "src/redux/actions/utilsAction";
 
 const DashboardPage = () => {
   const { properties } = useSelector(
@@ -11,10 +11,13 @@ const DashboardPage = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchProperties(currentPage));
   }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    dispatch(fetchCities());
+  }, []);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);

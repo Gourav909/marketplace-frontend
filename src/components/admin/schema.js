@@ -30,7 +30,7 @@ const initialValues = {
     city_id: "",
     district_id: "",
   },
-  image: null,
+  image_url: "",
 };
 
 export { propertyValidationSchema, initialValues };
