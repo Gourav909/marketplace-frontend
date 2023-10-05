@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   TextField,
@@ -25,7 +25,10 @@ import {
   updatePropertyById,
 } from "src/utils/apiRequest";
 import { propertyValidationSchema, initialValues } from "./schema";
+import { flattenNestedObject } from "src/utils/flattenObject";
 import { addNewPropertyAction } from "src/redux/actions/admin";
+import { FORM_DATA_KEYS } from "./constants";
+import { fetchCities } from "src/redux/actions/utilsAction";
 
 const PropertyForm = ({ isEdit }) => {
   const [isShowSnackBar, setIsShowSnackBar] = useState({
@@ -35,33 +38,29 @@ const PropertyForm = ({ isEdit }) => {
     altMessage: "",
   });
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [cityOptions, setCityOptions] = useState([]);
   const [districtOptions, setDistrictOptions] = useState([]);
   const params = useParams();
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
+  const { cities } = useSelector((state) => state.fetchCitiesByReducer);
+  const [cityOptions, setCityOptions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const data = await fetchPropertyById(params.id);
-        setFormikValues(data);
-      } catch (error) {
-        console.error("Error fetching property: ", error);
-      }
+      const data = await fetchPropertyById(params.id);
+      setFormikValues(data);
     };
     if (isEdit) {
       fetchData();
     }
+    if (cities.length == 0) {
+      dispatch(fetchCities());
+    }
   }, [params.id]);
 
   useEffect(() => {
-    const fetchCityAndDistrictData = async () => {
-      const data = await fetchCityAndDistrict();
-      setCityOptions(data);
-    };
-    fetchCityAndDistrictData();
-  }, []);
+    setCityOptions(cities);
+  }, [cities]);
 
   const handleDistrict = (e) => {
     const selectedValue = e.target.value;
@@ -73,14 +72,25 @@ const PropertyForm = ({ isEdit }) => {
     });
   };
 
+  const handleImage = (e) => {
+    const imageLink = e.target.value;
+    formik.setFieldValue("image_url", imageLink);
+  };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: propertyValidationSchema,
     onSubmit: (values) => {
+      const flattenedObject = flattenNestedObject(values);
+      const formData = new FormData();
+      Object.entries(FORM_DATA_KEYS).forEach(([key, val]) =>
+        formData.append(key, flattenedObject[val])
+      );
+
       if (!isEdit) {
-        dispatch(addNewPropertyAction(values));
+        dispatch(addNewPropertyAction(formData));
       } else {
-        updatePropertyById(params.id, values);
+        updatePropertyById(params.id, formData);
       }
     },
   });
@@ -104,10 +114,10 @@ const PropertyForm = ({ isEdit }) => {
       property_type: data.property_type,
       description: data.description,
       address_attributes: {
-        city_id: data.address.city_id,
-        district_id: data.address.district_id,
+        city_id: data.address?.city_id,
+        district_id: data.address?.district_id,
       },
-      image: data.image_url,
+      image_url: data.image_url,
     });
   };
 
@@ -326,15 +336,17 @@ const PropertyForm = ({ isEdit }) => {
               <Grid item xs={12}>
                 <input
                   type="file"
-                  name="image"
+                  id="image_url"
+                  name="image_url"
                   ref={fileInputRef}
                   accept="image/*"
-                  onChange={(e) => {
-                    const { files } = e.target;
-                    if (files[0]) {
-                      setUploadedFile(files[0]);
-                    }
-                  }}
+                  // onChange={(e) => {
+                  //   const { files } = e.target;
+                  //   if (files[0]) {
+                  //     setUploadedFile(files[0]);
+                  //   }
+                  // }}
+                  onChange={handleImage}
                 />
               </Grid>
             </Grid>

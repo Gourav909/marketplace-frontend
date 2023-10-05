@@ -52,8 +52,8 @@ const SignInForm = () => {
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
-          accessToken: headers["access-token"],
-          clientId: headers["client"],
+          "access-token": headers["access-token"],
+          client: headers["client"],
           uid: headers["uid"],
         })
       );
